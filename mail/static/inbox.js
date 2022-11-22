@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
   document.querySelector('#archived').addEventListener('click', () => load_mailbox('archive'));
   document.querySelector('#compose').addEventListener('click', compose_email);
 
+  //track if there is a submission of the compose form.
   document.querySelector('#compose-form').addEventListener('submit', add_sent);
 
   // By default, load the inbox
@@ -35,5 +36,17 @@ function load_mailbox(mailbox) {
 }
 
 function add_sent(event) {
-  
+  fetch('/emails', {
+    method: 'POST',
+    body: JSON.stringify({
+        recipients: document.querySelector('#compose-recipients').value,
+        subject: document.querySelector('#compose-subject').value,
+        body: document.querySelector('#compose-body').value
+    })
+  })
+  .then(response => response.json())
+  .then(result => {
+      // Print result
+      console.log(result);
+  });
 }
