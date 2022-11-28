@@ -46,3 +46,8 @@ function create_sent(event) {
   })
   .then(response => load_mailbox('sent'));
 }
+
+function get_email(id) {
+ fetch('/emails/' + id)
+ .then(response => response.json())
+} 
