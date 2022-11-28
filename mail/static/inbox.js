@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
   document.querySelector('#compose').addEventListener('click', compose_email);
 
   //track if there is a submission of the compose form.
-  document.querySelector('#compose-form').addEventListener('submit', add_sent);
+  document.querySelector('#compose-form').addEventListener('submit', create_sent);
 
   // By default, load the inbox
   load_mailbox('inbox');
@@ -35,7 +35,7 @@ function load_mailbox(mailbox) {
   document.querySelector('#emails-view').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3>`;
 }
 
-function add_sent(event) {
+function create_sent(event) {
   fetch('/emails', {
     method: 'POST',
     body: JSON.stringify({
@@ -44,9 +44,5 @@ function add_sent(event) {
         body: document.querySelector('#compose-body').value
     })
   })
-  .then(response => response.json())
-  .then(result => {
-      // Print result
-      console.log(result);
-  });
+  .then(response => load_mailbox('sent'));
 }
